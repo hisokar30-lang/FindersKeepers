@@ -1,19 +1,17 @@
-# 🦅 FindersKeepers - Lost & Found Marketplace
+# 🦅 FindersKeepers - Community Lost & Found Protocol
 
-**FindersKeepers** is a modern, community-driven platform designed to reunite people with their lost belongings. It features specific date validation, "free zone" photo verification rules for found items, and a trustworthy reward system with a built-in platform commission.
+**FindersKeepers** is a modern, community-driven platform designed to reunite people with their lost belongings through a **purely altruistic, non-monetary protocol**. This version focuses on mutual trust, respectful community interactions, and verified returns without financial transactions.
 
-![Dashboard Preview](./public/dashboard-preview.png) *(Note: Add a screenshot here)*
+![Dashboard Preview](./public/dashboard-preview.png)
 
 ## ✨ Key Features
 
--   **🔎 Smart Browsing:** Filter lost/found items by category (Electronics, Pets, etc.).
--   **🛡️ Trust & Safety:**
-    -   Mandatory photo uploads for "Found" items.
-    -   Strict 5-month limit on reporting timeframe.
--   **💰 Reward System:** integrated calculation for finder's reward + 10% platform commission.
--   **👤 User Profile:** Track your community trust score and reported/found stats.
--   **🗺️ Geo-Intelligence:** (Mocked) Proximity-based item mapping.
--   **🔐 Role-Based Access:** Dual User/Admin dashboard views.
+-   **🤝 Community-First Zones:** A "free zone" philosophy where returning items is based on goodwill and community respect.
+-   **👤 Verified Profiles:** Users can upload real avatars and track their "Trust Value" within the community.
+-   **💬 Secure Messaging:** Built-in chat for finders and owners to coordinate returns safely.
+-   **📸 Photo Verification:** Integrated chat feature to share high-res verification photos of items.
+-   **🔎 Proximity Matching:** AI-ready protocol for matching lost reports with found items based on geo-signals.
+-   **🛡️ Safety Limits:** Strict reporting timeframes (5 months) to ensure data relevance and user safety.
 
 ## 🛠️ Tech Stack
 
