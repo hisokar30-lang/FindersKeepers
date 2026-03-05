@@ -162,7 +162,7 @@ export const useStore = create<StoreState>()(
             },
 
             updateProfile: async (updates) => {
-                const { currentUser } = get();
+                const { currentUser, items, comments } = get();
                 if (!currentUser) return;
 
                 const { data, error } = await supabase
@@ -173,7 +173,35 @@ export const useStore = create<StoreState>()(
                     })
                     .eq('id', currentUser.id);
 
-                set({ currentUser: { ...currentUser, ...updates } });
+                const updatedUser = { ...currentUser, ...updates };
+
+                // Sync the local cache for items and comments so UI updates instantly
+                const updatedItems = items.map(item => {
+                    if (item.userId === currentUser.id) {
+                        return {
+                            ...item,
+                            userName: updatedUser.name,
+                            userAvatar: updatedUser.avatar,
+                        };
+                    }
+                    return item;
+                });
+
+                const updatedComments = { ...comments };
+                Object.keys(updatedComments).forEach(itemId => {
+                    updatedComments[itemId] = updatedComments[itemId].map(c => {
+                        if (c.userId === currentUser.id) {
+                            return { ...c, userName: updatedUser.name, userAvatar: updatedUser.avatar };
+                        }
+                        return c;
+                    });
+                });
+
+                set({
+                    currentUser: updatedUser,
+                    items: updatedItems,
+                    comments: updatedComments
+                });
             },
 
             // Item Actions
@@ -216,6 +244,9 @@ export const useStore = create<StoreState>()(
                     ...input,
                     id: newItemId,
                     userId: currentUser.id,
+                    userName: currentUser.name,
+                    userAvatar: currentUser.avatar,
+                    userTrustScore: currentUser.trustScore,
                     status: "Reported",
                     createdAt: new Date().toISOString(),
                     likesCount: 0,
