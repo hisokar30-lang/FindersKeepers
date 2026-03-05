@@ -22,10 +22,10 @@ import {
     Gauge,
     Heart
 } from "lucide-react";
-import { uploadPhoto } from "@/lib/storageUtils";
 import Image from "next/image";
 import { calculateGoodwill, ItemCondition, CONDITION_MULTIPLIERS } from "@/lib/goodwillLogic";
 import { Item } from "@/lib/types";
+import { ImageUploader } from "@/components/ImageUploader";
 
 const CATEGORIES: ItemCategory[] = [
     "Electronics",
@@ -62,7 +62,6 @@ export default function ReportForm({ initialData, onCancel, onSuccess }: ReportF
     const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [returnType, setReturnType] = useState<"community" | "thanks">("community");
-    const [isUploading, setIsUploading] = useState(false);
     const [condition, setCondition] = useState<ItemCondition>(initialData?.condition || "Good");
     const [isUrgent, setIsUrgent] = useState(initialData?.isUrgent || false);
 
@@ -72,68 +71,6 @@ export default function ReportForm({ initialData, onCancel, onSuccess }: ReportF
     }
 
     const goodwill = calculateGoodwill(category, condition, isUrgent);
-
-    const compressImage = (base64Str: string): Promise<string> => {
-        return new Promise((resolve) => {
-            const img = new window.Image();
-            img.src = base64Str;
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                const MAX_WIDTH = 800;
-                const MAX_HEIGHT = 800;
-                let width = img.width;
-                let height = img.height;
-
-                if (width > height) {
-                    if (width > MAX_WIDTH) {
-                        height *= MAX_WIDTH / width;
-                        width = MAX_WIDTH;
-                    }
-                } else {
-                    if (height > MAX_HEIGHT) {
-                        width *= MAX_HEIGHT / height;
-                        height = MAX_HEIGHT;
-                    }
-                }
-                canvas.width = width;
-                canvas.height = height;
-                const ctx = canvas.getContext('2d');
-                ctx?.drawImage(img, 0, 0, width, height);
-                resolve(canvas.toDataURL('image/jpeg', 0.7));
-            };
-        });
-    };
-
-    const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            setIsUploading(true);
-            setError(null);
-            try {
-                const reader = new FileReader();
-                const compressedBase64 = await new Promise<string>((resolve) => {
-                    reader.onload = async () => {
-                        const compressed = await compressImage(reader.result as string);
-                        resolve(compressed);
-                    };
-                    reader.readAsDataURL(file);
-                });
-
-                const res = await fetch(compressedBase64);
-                const blob = await res.blob();
-
-                const publicUrl = await uploadPhoto(blob, 'item-photos', 'items');
-                if (publicUrl) {
-                    setPhotoPreview(publicUrl);
-                }
-            } catch (err: any) {
-                console.error("Upload error:", err);
-                setError("Failed to upload photo. Please check your connection.");
-            } finally {
-                setIsUploading(false);
-            }
-        }
-    };
 
     const validateDate = (dateStr: string) => {
         const inputDate = new Date(dateStr);
@@ -526,26 +463,14 @@ export default function ReportForm({ initialData, onCancel, onSuccess }: ReportF
                 </div>
 
                 {photoMethod === "upload" ? (
-                    <label
-                        className={`flex flex-col items-center justify-center gap-3 p-10 rounded-2xl cursor-pointer transition-all duration-200 border-2 border-dashed group ${!photoPreview && error && postType === "found" ? "border-red-500/30 bg-red-500/5" : "border-white/5 bg-white/[0.02] hover:bg-white/[0.04]"
-                            }`}
-                    >
-                        {isUploading ? (
-                            <Loader2 size={24} className="animate-spin text-slate-400" />
-                        ) : photoPreview ? (
-                            <img src={photoPreview} alt="Preview" className="max-h-64 rounded-xl object-contain shadow-2xl" />
-                        ) : (
-                            <>
-                                <div className="w-14 h-14 rounded-full bg-white/5 flex items-center justify-center border border-white/10 group-hover:scale-110 transition-transform">
-                                    <Camera size={24} className="text-slate-400 group-hover:text-[var(--primary-brand)] transition-colors" />
-                                </div>
-                                <span className="text-[13px] font-medium text-slate-400">
-                                    Click to upload or drag & drop
-                                </span>
-                            </>
-                        )}
-                        <input type="file" accept="image/*" onChange={handlePhotoChange} className="hidden" />
-                    </label>
+                    <div className={!photoPreview && error && postType === "found" ? "border-red-500/30 bg-red-500/5 rounded-2xl p-1 border-2 border-dashed" : ""}>
+                        <ImageUploader
+                            onUploadSuccess={(url: string) => {
+                                setPhotoPreview(url);
+                            }}
+                            label={postType === "found" ? "Upload Proof of Finding" : "Upload Item Photo"}
+                        />
+                    </div>
                 ) : (
                     <div className="space-y-4">
                         {photoMethod === "url" && (

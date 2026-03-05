@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Award, MapPin, Camera, Upload, ArrowLeft, CheckCircle2, History, ExternalLink, Trash2, X, Package, Settings2 } from "lucide-react";
 import { useState, useRef } from "react";
-import { uploadPhoto } from "@/lib/storageUtils";
 import Link from "next/link";
 import Image from "next/image";
 import ReportForm from "@/components/ReportForm";
 import { Item } from "@/lib/types";
+import { ImageUploader } from "@/components/ImageUploader";
 
 export default function ProfilePage() {
     const { currentUser, logout, updateProfile } = useStore();
@@ -30,22 +30,6 @@ export default function ProfilePage() {
     };
 
     const [isUploading, setIsUploading] = useState(false);
-
-    const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            setIsUploading(true);
-            try {
-                const publicUrl = await uploadPhoto(file, 'avatars', 'profiles');
-                updateProfile({ avatar: publicUrl });
-            } catch (error) {
-                console.error("Avatar upload failed:", error);
-                alert("Failed to upload avatar. Please try again.");
-            } finally {
-                setIsUploading(false);
-            }
-        }
-    };
 
     const handleSave = () => {
         updateProfile({ name });
@@ -85,7 +69,7 @@ export default function ProfilePage() {
 
                     <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
                         {/* Avatar Section */}
-                        <div className="relative group cursor-pointer" onClick={() => fileInputRef.current?.click()}>
+                        <div className="relative group">
                             <div className={`w-32 h-32 rounded-full border-4 border-[#00f2fe]/30 overflow-hidden relative ${isUploading ? 'opacity-50' : ''}`}>
                                 <Image
                                     src={currentUser?.avatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"}
@@ -98,20 +82,18 @@ export default function ProfilePage() {
                                         <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#00f2fe]"></div>
                                     </div>
                                 )}
-                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                    <span className="text-[10px] font-black uppercase tracking-tighter text-white bg-black/60 px-2 py-1 rounded-full">Update Photo</span>
-                                </div>
                             </div>
-                            <div className="absolute bottom-0 right-0 p-2 bg-[#0a0a0c] border border-[#00f2fe]/30 rounded-full text-[#00f2fe] group-hover:scale-110 transition-transform shadow-lg">
-                                <Camera size={20} />
+
+                            <div className="absolute -bottom-2 -right-2 scale-75 origin-bottom-right">
+                                <ImageUploader
+                                    onUploadSuccess={(url: string) => {
+                                        setIsUploading(true);
+                                        updateProfile({ avatar: url });
+                                        setIsUploading(false);
+                                    }}
+                                    label="Edit"
+                                />
                             </div>
-                            <input
-                                ref={fileInputRef}
-                                type="file"
-                                accept="image/*"
-                                className="hidden"
-                                onChange={handlePhotoUpload}
-                            />
                         </div>
 
                         {/* Info Section */}

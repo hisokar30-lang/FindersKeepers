@@ -1,17 +1,7 @@
 "use server";
 
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-// We use the service role key on the server for admin registration
-const supabaseSecret = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-
-const supabaseAdmin = createClient(supabaseUrl, supabaseSecret, {
-    auth: {
-        autoRefreshToken: false,
-        persistSession: false
-    }
-});
+import { supabase } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export async function registerUserAction(email: string, name: string) {
     try {
