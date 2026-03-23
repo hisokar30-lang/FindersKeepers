@@ -2,7 +2,7 @@
 
 import { useStore } from "@/store/useStore";
 import { useParams, useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
     MapPin,
     Calendar,
@@ -14,8 +14,7 @@ import {
     Flag,
     Tag,
     User as UserIcon,
-    AlertCircle,
-    Send
+    AlertCircle
 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -26,7 +25,7 @@ import ChatRequestModal from "@/components/ChatRequestModal";
 export default function ItemDetailPage() {
     const { id } = useParams();
     const router = useRouter();
-    const { items, currentUser, matches: storeMatches } = useStore();
+    const { items, matches: storeMatches } = useStore();
     const [item, setItem] = useState(items.find(i => i.id === id));
     const [isChatModalOpen, setIsChatModalOpen] = useState(false);
     const potentialMatches = useMatching(item || null);
@@ -34,7 +33,7 @@ export default function ItemDetailPage() {
     // In case items aren't loaded or id changes
     useEffect(() => {
         const found = items.find(i => i.id === id);
-        if (found) setItem(found);
+        if (found) setTimeout(() => setItem(found), 0);
     }, [id, items]);
 
     if (!item) {
@@ -234,7 +233,7 @@ export default function ItemDetailPage() {
                             <div className="p-4 rounded-xl bg-amber-400/5 border border-amber-400/10 flex gap-3">
                                 <AlertCircle className="text-amber-400 flex-shrink-0" size={20} />
                                 <p className="text-[10px] text-amber-400/80 font-bold uppercase tracking-widest leading-relaxed">
-                                    Protocol Note: Verification details (like serial numbers or unique marks) are hidden. You must answer the owner's security question during recovery.
+                                    Protocol Note: Verification details (like serial numbers or unique marks) are hidden. You must answer the owner&#39;s security question during recovery.
                                 </p>
                             </div>
                         )}

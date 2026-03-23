@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Check } from "lucide-react";
+import Image from "next/image";
 
 interface ReCAPTCHAProps {
     onVerify: (verified: boolean) => void;
@@ -26,14 +27,10 @@ export default function ReCAPTCHA({ onVerify }: ReCAPTCHAProps) {
                     <Check size={20} className="text-[#009b00] stroke-[4]" />
                 )}
             </div>
-            <span className="text-[14px] text-black font-normal font-sans">I'm not a robot</span>
+            <span className="text-[14px] text-black font-normal font-sans">I&#39;m not a robot</span>
 
             <div className="ml-auto flex flex-col items-center justify-center text-[10px] text-[#555] gap-0.5 opacity-70">
-                <img
-                    src="https://www.gstatic.com/recaptcha/api2/logo_48.png"
-                    alt="reCAPTCHA"
-                    className="w-8 h-8 opacity-70"
-                />
+                <Image src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" width={32} height={32} className="w-8 h-8 opacity-70" unoptimized />
                 <div className="flex flex-col items-center leading-none scale-[0.8] origin-right">
                     <span>reCAPTCHA</span>
                     <span className="text-[8px] mt-[1px]">Privacy - Terms</span>

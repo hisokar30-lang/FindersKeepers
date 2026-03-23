@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Send, X, MessageCircle, User as UserIcon, ShieldAlert, Image as ImageIcon, CheckCircle2, Loader2 } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import DisputeModal from "./DisputeModal";
-import { User, Message } from "@/lib/types";
+import Image from "next/image";
 
 interface ChatWindowProps {
     recipientId: string;
@@ -76,7 +76,7 @@ export default function ChatWindow({ recipientId, recipientName, recipientAvatar
                 <div className="flex items-center gap-3">
                     <div className="relative">
                         {recipientAvatar ? (
-                            <img src={recipientAvatar} alt={recipientName} className="w-10 h-10 rounded-full object-cover border border-gray-100" />
+                            <Image src={recipientAvatar} alt={recipientName} width={40} height={40} className="w-10 h-10 rounded-full object-cover border border-gray-100" unoptimized />
                         ) : (
                             <div className="w-10 h-10 rounded-full bg-[var(--primary-brand)]/10 flex items-center justify-center border border-gray-100">
                                 <UserIcon size={20} className="text-[var(--primary-brand)]" />
@@ -141,7 +141,7 @@ export default function ChatWindow({ recipientId, recipientName, recipientAvatar
                                 >
                                     {msg.imageUrl && (
                                         <div className="overflow-hidden rounded-xl bg-slate-100">
-                                            <img src={msg.imageUrl} alt="Verification Evidence" className="max-w-full h-auto max-h-60 object-cover" />
+                                            <Image src={msg.imageUrl} alt="Verification Evidence" width={800} height={600} className="max-w-full h-auto max-h-60 object-cover" unoptimized />
                                             <div className="p-2 flex items-center gap-2 bg-black/5 text-[10px] uppercase font-bold tracking-wider">
                                                 <CheckCircle2 size={12} className="text-cyan-400" />
                                                 Verification Evidence

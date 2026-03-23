@@ -52,22 +52,14 @@ export default function LoginPage() {
                 await login(email);
             }
             router.push("/browse");
-        } catch (err: any) {
-            setError(err.message || "Something went wrong. Please try again.");
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+            setError(errorMessage);
         } finally {
             setIsLoading(false);
         }
     };
 
-    const SocialButton = ({ icon, label, color }: { icon: string, label: string, color: string }) => (
-        <button
-            type="button"
-            className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl border border-white/5 bg-white/5 hover:bg-white/10 transition-all group"
-        >
-            <span className="text-xl font-serif font-bold text-white/40 group-hover:text-white transition-colors">{icon}</span>
-            <span style={{ color }} className="font-semibold text-[10px] tracking-[0.2em] uppercase group-hover:text-white transition-colors">{label}</span>
-        </button>
-    );
 
     return (
         <div className="min-h-screen py-20 flex items-center justify-center relative overflow-hidden bg-[#050811]">

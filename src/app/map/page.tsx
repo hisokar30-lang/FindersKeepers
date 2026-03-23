@@ -3,7 +3,6 @@
 import { useStore } from "@/store/useStore";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 
 const Map = dynamic(() => import("@/components/Map"), {

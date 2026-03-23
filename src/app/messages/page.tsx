@@ -5,7 +5,7 @@ import { useStore } from "@/store/useStore";
 import { Message } from "@/lib/types";
 import { useState, useMemo } from "react";
 import { MessageCircle, User } from "lucide-react";
-import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function MessagesPage() {
     const { currentUser, messages, users, items, fetchMessages } = useStore();
@@ -94,7 +94,7 @@ export default function MessagesPage() {
                                     >
                                         <div className="relative shrink-0">
                                             {partner.avatar ? (
-                                                <img src={partner.avatar} alt={partner.name} className="w-14 h-14 rounded-2xl object-cover shadow-xl border border-white/10" />
+                                                <Image src={partner.avatar} alt={partner.name} width={56} height={56} className="w-14 h-14 rounded-2xl object-cover shadow-xl border border-white/10" unoptimized />
                                             ) : (
                                                 <div className="w-14 h-14 rounded-2xl bg-slate-800 flex items-center justify-center border border-white/10">
                                                     <User size={24} className="text-slate-600" />

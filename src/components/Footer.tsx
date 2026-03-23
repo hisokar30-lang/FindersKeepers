@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Disc as Discord, Mail, ShieldCheck, HelpCircle, FileText } from "lucide-react";
+import { Github, Disc as Discord, Mail, ShieldCheck, HelpCircle } from "lucide-react";
 
 export default function Footer() {
     return (

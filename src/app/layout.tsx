@@ -2,9 +2,14 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "leaflet/dist/leaflet.css";
 
+import { Inter } from "next/font/google";
+
 import ClientInitializer from "../components/ClientInitializer";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { ErrorBoundary } from "../components/ErrorBoundary";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "FindersKeepers - Lost & Found Protocol",
@@ -34,17 +39,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="antialiased font-sans bg-[var(--bg-main)] text-[var(--text-primary)]">
+      <body className={inter.className}>
         <ClientInitializer />
         <Navbar />
         <main className="min-h-[calc(100vh-3.5rem)]">
-          {children}
+          <ErrorBoundary>
+            {children}
+          </ErrorBoundary>
         </main>
         <Footer />
       </body>

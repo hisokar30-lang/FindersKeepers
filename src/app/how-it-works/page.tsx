@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShieldCheck, Zap, Globe, Lock, ArrowRight, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, Zap, Globe, Lock, CheckCircle2 } from "lucide-react";
 
 const steps = [
     {

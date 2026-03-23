@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useStore } from "@/store/useStore";
-import { Wallet, Bell, Search, Sparkles } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { Search } from "lucide-react";
+import { useEffect, useRef } from "react";
+import Image from "next/image";
 import { X } from "lucide-react";
 
 export default function Navbar() {
@@ -96,10 +97,13 @@ export default function Navbar() {
                     <div className="flex items-center gap-3">
                         <Link href="/profile" className="flex items-center gap-2.5 p-1 px-2.5 rounded-full border border-white/5 bg-white/5 hover:border-[var(--primary-brand)]/50 transition-all relative group">
                             <div className="relative">
-                                <img
-                                    src={currentUser.avatar}
+                                <Image
+                                    src={currentUser.avatar || '/default-avatar.png'}
                                     alt="Profile"
+                                    width={28}
+                                    height={28}
                                     className="w-7 h-7 rounded-full object-cover"
+                                    unoptimized
                                 />
                             </div>
                             <span className="text-[10px] font-bold tracking-widest uppercase hidden lg:block text-white/60">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useStore } from "@/store/useStore";
-import { Bell, Wallet, MessageSquare } from "lucide-react";
+import { Bell, MessageSquare } from "lucide-react";
 import Link from "next/link";
 
 export default function Header({ title }: { title: string }) {

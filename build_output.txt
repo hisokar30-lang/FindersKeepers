@@ -1,0 +1,47 @@
+
+> finders-keepers@0.1.0 build
+> next build
+
+⚠ turbopack.root should be absolute, using: C:\Users\hisok\Desktop\finders keepers beta
+▲ Next.js 16.1.6 (Turbopack)
+- Environments: .env.production.local, .env.local
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 17.8s
+  Running TypeScript ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/21) ...
+  Generating static pages using 7 workers (5/21) 
+  Generating static pages using 7 workers (10/21) 
+  Generating static pages using 7 workers (15/21) 
+ReferenceError: location is not defined
+    at y (C:\Users\hisok\Desktop\finders keepers beta\.next\server\chunks\ssr\src_app_profile_page_tsx_c1d907c4._.js:1:1273)
+✓ Generating static pages using 7 workers (21/21) in 979.5ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /admin
+├ ○ /admin/seed
+├ ○ /admin/test-connection
+├ ƒ /api/stripe/create-checkout-session
+├ ƒ /api/stripe/create-payment-intent
+├ ƒ /api/stripe/create-portal-session
+├ ƒ /api/stripe/webhook
+├ ƒ /api/test-connection
+├ ○ /browse
+├ ƒ /browse/[id]
+├ ○ /how-it-works
+├ ○ /login
+├ ○ /map
+├ ○ /messages
+├ ○ /pricing
+├ ○ /profile
+├ ○ /profile/billing
+└ ○ /report
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

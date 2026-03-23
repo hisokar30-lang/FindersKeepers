@@ -55,8 +55,9 @@ export async function uploadImageAction(formData: FormData) {
             fileName: fileName
         };
 
-    } catch (error: any) {
-        console.error('Internal upload error:', error);
-        return { success: false, error: error.message || 'An unexpected error occurred' };
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
+        console.error('Internal upload error:', errorMessage);
+        return { success: false, error: errorMessage };
     }
 }

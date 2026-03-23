@@ -3,8 +3,8 @@
 import { useStore } from "@/store/useStore";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Award, MapPin, Camera, Upload, ArrowLeft, CheckCircle2, History, ExternalLink, Trash2, X, Package, Settings2 } from "lucide-react";
-import { useState, useRef } from "react";
+import { Mail, Award, MapPin, Camera, Upload, ArrowLeft, CheckCircle2, ExternalLink, Trash2, X, Package, Settings2 } from "lucide-react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ReportForm from "@/components/ReportForm";
@@ -14,22 +14,15 @@ import { ImageUploader } from "@/components/ImageUploader";
 export default function ProfilePage() {
     const { currentUser, logout, updateProfile } = useStore();
     const router = useRouter();
-    const fileInputRef = useRef<HTMLInputElement>(null);
     const [isProfileEditing, setIsProfileEditing] = useState(false);
     const [editingItem, setEditingItem] = useState<Item | null>(null);
     const [name, setName] = useState(currentUser?.name || "");
+    const [isUploading, setIsUploading] = useState(false);
 
     if (!currentUser) {
         router.push("/login");
         return null;
     }
-
-    const handleLogout = async () => {
-        await logout();
-        router.push("/login");
-    };
-
-    const [isUploading, setIsUploading] = useState(false);
 
     const handleSave = () => {
         updateProfile({ name });
@@ -268,8 +261,8 @@ export default function ProfilePage() {
                                             </button>
                                             <button
                                                 onClick={() => {
-                                                    const status: any = item.status === 'Resolved' ? 'Reported' : 'Resolved';
-                                                    useStore.getState().updateItemStatus(item.id, status);
+                                                    const newStatus = item.status === 'Resolved' ? 'Reported' : 'Resolved';
+                                                    useStore.getState().updateItemStatus(item.id, newStatus as 'Reported' | 'Resolved');
                                                 }}
                                                 className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase transition-all ${item.status === 'Resolved'
                                                     ? 'bg-[var(--neon-green)]/20 text-[var(--neon-green)]'
@@ -320,7 +313,7 @@ export default function ProfilePage() {
                         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-500 mb-4 opacity-50">Account Configuration</h3>
                         <div className="space-y-3">
                             <button
-                                onClick={handleLogout}
+                                onClick={logout}
                                 className="w-full text-left p-4 rounded-xl bg-red-500/5 border border-red-500/10 text-red-400 hover:bg-red-500/10 transition-colors flex items-center justify-between group"
                             >
                                 <span className="font-bold text-sm">Terminate Session</span>

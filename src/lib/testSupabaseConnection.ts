@@ -10,7 +10,7 @@ export async function testSupabaseConnection() {
     try {
         // Test 1: Check if we can connect to Supabase
         console.log('1️⃣ Testing basic connection...');
-        const { data: healthCheck, error: healthError } = await supabase
+        const { error: healthError } = await supabase
             .from('profiles')
             .select('count')
             .limit(1);
@@ -76,9 +76,10 @@ export async function testSupabaseConnection() {
             buckets: buckets?.map(b => b.name) || []
         };
 
-    } catch (error: any) {
-        console.error('❌ Unexpected error:', error.message);
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        console.error('❌ Unexpected error:', errorMessage);
+        return { success: false, error: errorMessage };
     }
 }
 

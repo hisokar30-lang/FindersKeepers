@@ -13,7 +13,7 @@ export default function BrowsePage() {
     useEffect(() => {
         if (!currentUser) router.push("/login");
         fetchItems();
-    }, [currentUser, router]);
+    }, [currentUser, router, fetchItems]);
 
     if (!currentUser) return null;
 

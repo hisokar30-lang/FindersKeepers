@@ -4,6 +4,7 @@ import React, { useState, useCallback } from 'react';
 import { uploadImageAction } from '@/app/actions/upload';
 import { Upload, X, CheckCircle, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from "next/image";
 
 interface ImageUploaderProps {
     onUploadSuccess?: (url: string) => void;
@@ -109,7 +110,7 @@ export function ImageUploader({ onUploadSuccess, label = "Add Photo" }: ImageUpl
                         className="relative rounded-2xl overflow-hidden aspect-video bg-black/40 border border-white/10"
                     >
                         {preview && (
-                            <img src={preview} alt="Preview" className="w-full h-full object-cover" />
+                            <Image src={preview} alt="Preview" fill className="object-cover" unoptimized />
                         )}
 
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-4">

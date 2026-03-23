@@ -3,17 +3,14 @@
 import { useStore } from "@/store/useStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import {
     Users,
     Package,
     Trash2,
-    AlertTriangle,
-    CheckCircle2,
     Shield,
-    Eye,
     User,
 } from "lucide-react";
+import Image from "next/image";
 
 type AdminTab = "items" | "users";
 
@@ -26,7 +23,7 @@ export default function AdminPage() {
         if (!currentUser) router.push("/login");
         else if (currentUser.role !== "admin") router.push("/");
         fetchItems();
-    }, [currentUser, router]);
+    }, [currentUser, router, fetchItems]);
 
     if (!currentUser || currentUser.role !== "admin") return null;
 
@@ -100,7 +97,7 @@ export default function AdminPage() {
                                             <td className="px-8 py-6">
                                                 <select
                                                     value={item.status}
-                                                    onChange={(e) => updateItemStatus(item.id, e.target.value as any)}
+                                                    onChange={(e) => updateItemStatus(item.id, e.target.value as 'Reported' | 'Found' | 'Resolved')}
                                                     className="bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-lg px-3 py-1.5 text-xs font-bold text-white focus:outline-none"
                                                 >
                                                     <option value="Reported">Reported</option>
@@ -136,7 +133,14 @@ export default function AdminPage() {
                                             <td className="px-8 py-6">
                                                 <div className="flex items-center gap-3">
                                                     {user.avatar ? (
-                                                        <img src={user.avatar} className="w-10 h-10 rounded-full border border-white/10" alt="" />
+                                                        <div className="w-10 h-10 rounded-full border border-white/10 relative overflow-hidden">
+                                                            <Image
+                                                                src={user.avatar}
+                                                                alt={user.name || "User avatar"}
+                                                                fill
+                                                                className="object-cover"
+                                                            />
+                                                        </div>
                                                     ) : (
                                                         <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center"><User size={20} /></div>
                                                     )}

@@ -29,7 +29,7 @@ async function setupBuckets() {
 
     for (const bucketName of buckets) {
         console.log(`Checking bucket: ${bucketName}...`);
-        const { data, error } = await supabase.storage.getBucket(bucketName);
+        const { error } = await supabase.storage.getBucket(bucketName);
 
         if (error && error.message.includes('not found')) {
             console.log(`Bucket ${bucketName} not found. Creating...`);

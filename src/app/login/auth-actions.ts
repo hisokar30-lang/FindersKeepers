@@ -1,6 +1,5 @@
 "use server";
 
-import { supabase } from "@/lib/supabase";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export async function registerUserAction(email: string, name: string) {
@@ -32,9 +31,10 @@ export async function registerUserAction(email: string, name: string) {
         if (profileError) throw profileError;
 
         return { success: true, user: { id: data.user.id, email, name } };
-    } catch (error: any) {
-        console.error("Registration Error:", error.message);
-        return { success: false, error: error.message };
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        console.error("Registration Error:", errorMessage);
+        return { success: false, error: errorMessage };
     }
 }
 
@@ -53,7 +53,8 @@ export async function loginUserAction(email: string) {
         }
 
         return { success: true, user: data };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return { success: false, error: errorMessage };
     }
 }

@@ -1,20 +1,11 @@
 import { Item, ItemCategory, User } from './types';
 
-const CATEGORIES: ItemCategory[] = [
-    "Electronics",
-    "Personal Items",
-    "Pets & Animals",
-    "Documents",
-    "Apparel",
-    "Other"
-];
-
 const NAMES = [
     "James Wilson", "Mary Johnson", "Robert Smith", "Patricia Brown", "Michael Davis",
     "Linda Garcia", "William Martinez", "Barbara Jones", "David Miller", "Elizabeth Taylor",
     "Richard Anderson", "Jennifer White", "Thomas Harris", "Maria Clark", "Charles Lewis",
     "Susan Robinson", "Christopher Walker", "Margaret Hall", "Daniel Young", "Alice Allen",
-    "Joseph Wright", "Dorothy King", "Kevin Baker", "Sarah Green", "Jason Adams"
+    
 ];
 
 const ITEM_DATA: Record<ItemCategory, { name: string, photoId: string }[]> = {

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, AlertCircle, ShieldAlert, CheckCircle2, MessageSquare } from "lucide-react";
+import { X, AlertCircle, ShieldAlert, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 
 interface DisputeModalProps {
@@ -21,6 +21,7 @@ const DISPUTE_REASONS = [
 export default function DisputeModal({ isOpen, onClose, recipientName }: DisputeModalProps) {
     const [step, setStep] = useState<"reason" | "submitted">("reason");
     const [selectedReason, setSelectedReason] = useState<string | null>(null);
+    const [caseNumber] = useState(() => Math.floor(Math.random() * 100000));
 
     const handleSubmit = () => {
         if (!selectedReason) return;
@@ -109,7 +110,7 @@ export default function DisputeModal({ isOpen, onClose, recipientName }: Dispute
                             <div className="space-y-2">
                                 <h3 className="text-xl font-bold text-white">Dispute Received</h3>
                                 <p className="text-sm text-slate-400">
-                                    Case #FK-{Math.floor(Math.random() * 100000)} has been opened.
+                                    Case #FK-{caseNumber} has been opened.
                                     Our protocol intelligence team will review your chat logs within 24 hours.
                                 </p>
                             </div>

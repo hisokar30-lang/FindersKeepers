@@ -62,6 +62,8 @@ export interface LostItem {
     isBoosted?: boolean;
     condition?: ItemCondition;
     isUrgent?: boolean;
+    reward_amount?: number;
+    priority_score?: number;
 }
 
 export interface FoundItem {
@@ -94,6 +96,8 @@ export interface FoundItem {
     isBoosted?: boolean;
     condition?: ItemCondition;
     isUrgent?: boolean;
+    reward_amount?: number;
+    priority_score?: number;
 }
 
 export type Item = LostItem | FoundItem;

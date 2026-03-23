@@ -16,7 +16,6 @@ import {
     Globe,
     Cpu,
     ShieldCheck,
-    Loader2,
     Zap,
     Sparkles,
     Gauge,
@@ -26,6 +25,14 @@ import Image from "next/image";
 import { calculateGoodwill, ItemCondition, CONDITION_MULTIPLIERS } from "@/lib/goodwillLogic";
 import { Item } from "@/lib/types";
 import { ImageUploader } from "@/components/ImageUploader";
+
+// Type for Unsplash API search results
+interface UnsplashSearchResult {
+    id: string;
+    urls: {
+        regular: string;
+    };
+}
 
 const CATEGORIES: ItemCategory[] = [
     "Electronics",
@@ -56,7 +63,7 @@ export default function ReportForm({ initialData, onCancel, onSuccess }: ReportF
     const [photoMethod, setPhotoMethod] = useState<"upload" | "url" | "web">(initialData?.photoUrl ? "url" : "upload");
     const [externalPhotoUrl, setExternalPhotoUrl] = useState(initialData?.photoUrl || "");
     const [webSearchQuery, setWebSearchQuery] = useState("");
-    const [webSearchResults, setWebSearchResults] = useState<any[]>([]);
+    const [webSearchResults, setWebSearchResults] = useState<UnsplashSearchResult[]>([]);
     const [isSearching, setIsSearching] = useState(false);
     const [verificationQuestion, setVerificationQuestion] = useState(initialData?.verificationQuestion || "");
     const [submitted, setSubmitted] = useState(false);
@@ -125,7 +132,7 @@ export default function ReportForm({ initialData, onCancel, onSuccess }: ReportF
             return;
         }
 
-        const itemPayload: any = {
+        const itemPayload = {
             title,
             description,
             category,
@@ -141,7 +148,7 @@ export default function ReportForm({ initialData, onCancel, onSuccess }: ReportF
                 ? (photoPreview || "")
                 : (externalPhotoUrl || 'https://images.unsplash.com/photo-1532619675605-1fea6d25208b?auto=format&fit=crop&w=800&q=80'),
             isBoosted: currentUser.isVerified,
-            type: postType,
+            type: postType as "lost" | "found",
         };
 
         if (initialData) {
@@ -483,7 +490,7 @@ export default function ReportForm({ initialData, onCancel, onSuccess }: ReportF
                                     className="focus:ring-2 focus:ring-[var(--primary-brand)]/20 focus:border-[var(--primary-brand)]"
                                 />
                                 {externalPhotoUrl && (
-                                    <img src={externalPhotoUrl} alt="Preview" className="max-h-48 rounded-xl object-contain" onError={(e) => (e.target as HTMLImageElement).style.display = 'none'} />
+                                    <Image src={externalPhotoUrl} alt="Preview" width={800} height={600} className="max-h-48 rounded-xl object-contain" unoptimized onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
                                 )}
                             </>
                         )}
@@ -509,7 +516,7 @@ export default function ReportForm({ initialData, onCancel, onSuccess }: ReportF
 
                                 {webSearchResults.length > 0 && (
                                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                                        {webSearchResults.map((result: any) => (
+                                        {webSearchResults.map((result: UnsplashSearchResult) => (
                                             <button
                                                 key={result.id}
                                                 type="button"
@@ -519,7 +526,7 @@ export default function ReportForm({ initialData, onCancel, onSuccess }: ReportF
                                                 }}
                                                 className="relative aspect-square rounded-xl overflow-hidden border border-white/10 hover:border-cyan-500/50 transition-all group"
                                             >
-                                                <img src={result.urls.regular} className="w-full h-full object-cover" alt="Search result" />
+                                                <Image src={result.urls.regular} alt="Search result" width={200} height={200} className="w-full h-full object-cover" unoptimized />
                                                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
                                                     <span className="text-[10px] font-bold text-white uppercase tracking-widest">Select</span>
                                                 </div>

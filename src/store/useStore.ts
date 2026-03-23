@@ -535,8 +535,8 @@ export const useStore = create<StoreState>()(
 
             // Mock Data Seeding
             seedMockData: () => {
-                const mockUsers = generateMockUsers(15);
-                const rawItems = generateMockItems(100, mockUsers);
+                const mockUsers = generateMockUsers(8);
+                const rawItems = generateMockItems(30, mockUsers);
 
                 const fiveMonthsAgo = Date.now() - (150 * 24 * 60 * 60 * 1000);
                 const mockItems = rawItems.filter(item => new Date(item.createdAt).getTime() > fiveMonthsAgo);

@@ -2,7 +2,7 @@
 
 import { useStore } from "@/store/useStore";
 import { Item } from "@/lib/types";
-import { MapPin, Clock, ArrowRight, Heart, CheckCircle2, Crown, Sparkles } from "lucide-react";
+import { MapPin, Clock, ArrowRight, Heart, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
@@ -56,6 +56,14 @@ export default function ItemCard({ item, onClick }: ItemCardProps) {
             <h3 className="text-xl font-bold text-white mb-2 line-clamp-1 group-hover:text-[var(--primary-brand)] transition-colors">
                 {item.title}
             </h3>
+
+            {item.reward_amount && item.reward_amount > 0 && (
+                <div className="mt-1">
+                    <span className="px-2 py-0.5 rounded-full bg-yellow-500/20 text-yellow-400 text-[9px] font-bold uppercase tracking-wider">
+                        Reward: ${item.reward_amount}
+                    </span>
+                </div>
+            )}
 
             {/* Poster Info Layer */}
             <div className="flex items-center gap-3 mb-4">
